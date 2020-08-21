@@ -19,6 +19,6 @@ class CategoryController extends Controller
             'banner' => $banners,
             'categories' => $category,
         );
-        return response()->json(['message'=>"Successfully","purchase_msg"=>$purchase->message,'total_cart'=>$cart_count ,'status_code'=>200,'data'=>$response]);
+        return response()->json(['message'=>"Successfully",'status_code'=>200,'data'=>$response]);
     }
 }

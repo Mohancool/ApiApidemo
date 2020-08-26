@@ -67,28 +67,28 @@ class UserController extends Controller
              $description = $desc->$ln;
              $user = array(
                  "id" => $userdata->id,
-                 "shop_id" => $userdata->shop_id,
-                 "role_id" => $userdata->role_id,
-                 "name" => $name,
-                 "email" => $userdata->email,
-                 "mobile" => $userdata->contact,
-                 "dob" => $userdata->dob,
-                 "sex" => $userdata->sex,
-                 "description"=>$description,
+                 "shop_id" => ($userdata->shop_id == null) ? "" : $userdata->shop_id,
+                 "role_id" => ($userdata->role_id == null) ? "" : $userdata->role_id,
+                 "name" => ($name == null) ? "" : $name,
+                 "email" => ($userdata->email == null) ? "" : $userdata->email,
+                 "mobile" => ($userdata->contact == null) ? "" : $userdata->contact,
+                 "dob" => ($userdata->dob == null) ? "" : $userdata->dob,
+                 "sex" => ($userdata->sex == null) ? "" : $userdata->sex,
+                 "description"=>($description == null) ? "" : $description,
                  "active" => $userdata->active,
                  "ln"=>$ln
              );
          }else{
              $user = array(
                  "id" => $userdata->id,
-                 "shop_id" => $userdata->shop_id,
-                 "role_id" => $userdata->role_id,
-                 "name" => $userdata->name,
-                 "email" => $userdata->email,
-                 "mobile" => $userdata->contact,
-                 "dob" => $userdata->dob,
-                 "sex" => $userdata->sex,
-                 "description"=>$userdata->description,
+                 "shop_id" => ($userdata->shop_id == null) ? "" : $userdata->shop_id,
+                 "role_id" => ($userdata->role_id == null) ? "" : $userdata->role_id,
+                 "name" => ($userdata->name == null) ? "" : $userdata->name,
+                 "email" => ($userdata->email == null) ? "" : $userdata->email,
+                 "mobile" => ($userdata->contact == null) ? "" : $userdata->contact,
+                 "dob" => ($userdata->dob == null) ? "" : $userdata->dob,
+                 "sex" => ($userdata->sex == null) ? "" : $userdata->sex,
+                 "description"=>($userdata->description == null) ? "" : $userdata->description,
                  "active" => $userdata->active,
                  "ln"=>"en"
              );

@@ -34,7 +34,7 @@ class UserController extends Controller
         }
 
         if (User::where('email', $request->email)->exists()) {
-            return response()->json(['error' => 'Email has been taken already', 'status' => false]);
+            return response()->json(['responseMessage' => 'Email has been taken already', 'status' => false]);
         }
             $user = User::create([
                 'role_id' => 3,

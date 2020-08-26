@@ -57,6 +57,17 @@ class CategoryController extends Controller
                     $category->name = $name;
                 }
             }
+
+            if (json_decode($category->description , true )) {
+                if (isset($category->description)) {
+                    $descriptions = json_decode($category->description);
+                    $description = $descriptions->$ln;
+                    unset($category->description);
+                    $category->description = $description;
+                }
+            }
+
+
             $c_image = Image::where(['imageable_id'=>$category->id,'imageable_type'=>'App\Category'])->first();
             if($c_image){
                 $category->image=$c_image->path;

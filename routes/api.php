@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('home', 'CategoryController@index');
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
+Route::post('subcategories', 'SubCategoryController@index');
+Route::post('childcategories', 'ChildCategoryController@index');
+
+
+

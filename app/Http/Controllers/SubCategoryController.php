@@ -2,51 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Banner;
-use App\Cart;
-use App\Category;
-use App\CategoryGroup;
+use App\CategorySubGroup;
 use App\Image;
-use App\PurchaseRequire;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SubCategoryController extends Controller
 {
     public function index(Request $request){
         $response =[];
         $ln=$request['ln'];
+        $category_id = $request['category_group_id'];
         if(empty($ln) || $ln ==''){
             return response()->json(['status' => false, 'responseMessage' => "Ln field is required"]);
+        }elseif (empty($category_id) || $category_id == ''){
+            return response()->json(['status' => false, 'responseMessage' => "Category group id field is required"]);
         }
-        $banners=Banner::all();
-        foreach ($banners as $banner){
-            if(isset($banner->title)){
-                $titles = json_decode($banner->title);
-                $title=$titles->$ln;
-                unset($banner->title);
-                $banner->title= ($title == null) ? "" : $title;
-            }
-            if(isset($banner->link_label)){
-                $link_labels = json_decode($banner->link_label);
-                $link_label=$link_labels->$ln;
-                unset($banner->link_label);
-                $banner->link_label= ($link_label == null) ? "" : $link_label;
-            }
-            if(isset($banner->description)){
-                $descriptions = json_decode($banner->description);
-                $description=$descriptions->$ln;
-                unset($banner->description);
-                $banner->description= ($description == null) ? "" : $description;
-            }
-            $b_image = Image::where(['imageable_id'=>$banner->id,'imageable_type'=>'App\Slider'])->first();
-            if($b_image){
-                $banner->image=$b_image->path;
-            }else{
-                $banner->image="";
-            }
-        }
-
-        $categories=CategoryGroup::where('active',1)->get();
+        $categories=CategorySubGroup::where(['category_group_id'=>$category_id,'active'=>1])->get();
         foreach ($categories as $category) {
             if(isset($category->description) || $category->description == null){
                 if (json_decode($category->description , true )) {
@@ -72,8 +43,7 @@ class CategoryController extends Controller
                 $category->featured =   ($category->featured == null) ? "" : $category->featured;
             }
 
-
-            $c_image = Image::where(['imageable_id'=>$category->id,'imageable_type'=>'App\CategoryGroup'])->first();
+            $c_image = Image::where(['imageable_id'=>$category->id,'imageable_type'=>'App\CategorySubGroup'])->first();
             if($c_image){
                 $category->image=$c_image->path;
             }else{
@@ -81,8 +51,7 @@ class CategoryController extends Controller
             }
         }
         $response = array(
-            'banner' => $banners,
-            'categories' => $categories,
+            'subcategories' => $categories,
         );
         return response()->json(['status' => true, 'responseMessage' => "Successfully", "responseData" => $response]);
     }

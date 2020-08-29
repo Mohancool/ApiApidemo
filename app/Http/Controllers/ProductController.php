@@ -81,12 +81,12 @@ class ProductController extends Controller
 
     public function additionalItems(Request $request){
         $response =[];
-        $products = [];
+        $finalproducts = [];
         $ln=$request['ln'];
         if(empty($ln) || $ln ==''){
             return response()->json(['status' => false, 'responseMessage' => "Ln field is required"]);
         }
-        $products = Inventory::where('active',1)->orderByDesc('id')->take(6)->get();
+        $products = Inventory::where('active',1)->orderby('id','desc')->get()->take(6);
         foreach ($products as $product) {
             if(isset($product->description) || $product->description == null){
                 if (json_decode($product->description , true )) {
@@ -137,10 +137,10 @@ class ProductController extends Controller
             unset($product->condition_note);
             unset($product->damaged_quantity);
             unset($product->stuff_pick);
-            $products[]= $product;
+            $finalproducts[]= $product;
         }
         $response = array(
-            'additional_products' => $products,
+            'additional_products' => $finalproducts,
         );
         return response()->json(['status' => true, 'responseMessage' => "Successfully", "responseData" => $response]);
     }

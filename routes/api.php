@@ -23,6 +23,8 @@ Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
 Route::post('subcategories', 'SubCategoryController@index');
 Route::post('childcategories', 'ChildCategoryController@index');
+Route::post('recommended', 'ProductController@recommendedData');
+Route::post('additional', 'ProductController@additionalItems');
 
 
 

@@ -25,6 +25,7 @@ Route::post('subcategories', 'SubCategoryController@index');
 Route::post('childcategories', 'ChildCategoryController@index');
 Route::post('recommended', 'ProductController@recommendedData');
 Route::post('additional', 'ProductController@additionalItems');
+Route::post('category-products', 'ProductController@productByCategory');
 
 
 

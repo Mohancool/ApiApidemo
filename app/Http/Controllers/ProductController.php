@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoryProduct;
 use App\Image;
 use App\Inventory;
 use App\Wishlist;
@@ -141,6 +142,77 @@ class ProductController extends Controller
         }
         $response = array(
             'additional_products' => $finalproducts,
+        );
+        return response()->json(['status' => true, 'responseMessage' => "Successfully", "responseData" => $response]);
+    }
+
+
+    public function productByCategory(Request $request){
+        $response =[];
+        $finalproducts = [];
+        $ln=$request['ln'];
+        $category_id = $request['category_id'];
+        if(empty($ln) || $ln ==''){
+            return response()->json(['status' => false, 'responseMessage' => "Ln field is required"]);
+        }elseif (empty($category_id) || $category_id == ''){
+            return response()->json(['status' => false, 'responseMessage' => "Category id field is required"]);
+        }
+        $categoryProducts = CategoryProduct::where('category_id',$category_id)->get();
+        foreach ($categoryProducts as $value) {
+            $product = Inventory::where('product_id',$value->product_id)->first();
+            if(isset($product->description) || $product->description == null){
+                if (json_decode($product->description , true )) {
+                    $descriptions = json_decode($product->description);
+                    $description = $descriptions->$ln;
+                    unset($product->description);
+                    $product->description = ($description == null) ? "" : $description;
+                }else{
+                    if(isset($product->description) || $product->description == null){
+                        $product->description =   ($product->description == null) ? "" : $product->description;
+                    }
+                }
+            }
+            if (json_decode($product->title , true )) {
+                if (isset($product->title)) {
+                    $names = json_decode($product->title);
+                    $name = $names->$ln;
+                    unset($product->title);
+                    $product->title = ($name == null) ? "" : $name;
+                }
+            }
+            if (isset($product->meta_title)) {
+                $product->title = ($name == null) ? "" : $name;
+            }
+
+            if(isset($product->meta_title) || $product->meta_title == null){
+                $product->meta_title =   ($product->meta_title == null) ? "" : $product->meta_title;
+            }
+            if(isset($product->meta_description) || $product->meta_description == null){
+                $product->meta_description =   ($product->meta_description == null) ? "" : $product->meta_description;
+            }
+            if(isset($product->price_status) || $product->price_status == null){
+                $product->price_status =   ($product->price_status == null) ? "" : $product->price_status;
+            }
+            if(isset($product->bulk_price) || $product->bulk_price == null){
+                $product->bulk_price =   ($product->bulk_price == null) ? "" : $product->bulk_price;
+            }
+            if(isset($product->free_shipping) || $product->free_shipping == null){
+                $product->free_shipping =   ($product->free_shipping == null) ? "" : $product->free_shipping;
+            }
+
+            $c_image = Image::where(['imageable_id'=>$product->id,'imageable_type'=>'App\Product'])->first();
+            if($c_image){
+                $product->image=$c_image->path;
+            }else{
+                $product->image="";
+            }
+            unset($product->condition_note);
+            unset($product->damaged_quantity);
+            unset($product->stuff_pick);
+            $finalproducts[]= $product;
+        }
+        $response = array(
+            'products' => $finalproducts,
         );
         return response()->json(['status' => true, 'responseMessage' => "Successfully", "responseData" => $response]);
     }

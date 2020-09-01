@@ -6,6 +6,7 @@ use App\Banner;
 use App\Cart;
 use App\Category;
 use App\CategoryGroup;
+use App\CategorySubGroup;
 use App\Image;
 use App\PurchaseRequire;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class CategoryController extends Controller
             }
         }
 
-        $categories=CategoryGroup::where('active',1)->get();
+        $categories=CategoryGroup::where('active',1)->get()->take(6);
         foreach ($categories as $category) {
             if(isset($category->description) || $category->description == null){
                 if (json_decode($category->description , true )) {

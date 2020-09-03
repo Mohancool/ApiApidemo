@@ -36,7 +36,7 @@ class CartController extends Controller
         }
             if (CartItem::where(['cart_id' => $cart_id, 'inventory_id' => $product_id])->exists()) {
                 $cartItem = CartItem::where(['cart_id' => $cart_id, 'inventory_id' => $product_id])->first();
-                $quantity = $cart->quantity + 1;
+                $quantity = $cartItem->quantity + 1;
                 $price = $cartItem->unit_price + $product->sale_price;
                 CartItem::where(['cart_id' => $cart_id, 'inventory_id' => $product_id])->update([
                     'unit_price' => $price,
@@ -48,7 +48,7 @@ class CartController extends Controller
                 if(isset($product->description) || $product->description == null){
                     if (json_decode($product->description , true )) {
                         $descriptions = json_decode($product->description);
-                        $description = $descriptions->$ln;
+                        $description = ($descriptions->$ln == null) ? "" : $descriptions->$ln;
                     }else{
                         if(isset($product->description) || $product->description == null){
                             $description =   ($product->description == null) ? "" : $product->description;
@@ -64,13 +64,13 @@ class CartController extends Controller
                     'pbulk'=>0
                 ]);
             }
-//            $cart = CartItem::where(['cart_id' => $cart_id])->get();
-//            if (count($cart) > 0) {
-//                $total_cart = count($cart);
-//            } else {
-//                $total_cart = 0;
-//            }
-            return response()->json(['status' => true, 'responseMessage' => "Cart Successfully"]);
+            $cart = CartItem::where(['cart_id' => $cart_id])->get();
+            if (count($cart) > 0) {
+                $total_cart = count($cart);
+            } else {
+                $total_cart = 0;
+            }
+            return response()->json(['status' => true, 'responseMessage' => "Cart Successfully","total_item"=>$total_cart]);
 
         }
 }

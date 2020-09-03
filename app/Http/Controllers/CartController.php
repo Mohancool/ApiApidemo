@@ -64,9 +64,9 @@ class CartController extends Controller
                     'pbulk'=>0
                 ]);
             }
-            $cart = CartItem::where(['cart_id' => $cart_id])->get();
-            if (count($cart) > 0) {
-                $total_cart = count($cart);
+            $totalcart = CartItem::where('cart_id', $cart_id)->get();
+            if (count($totalcart) > 0) {
+                $total_cart = count($totalcart);
             } else {
                 $total_cart = 0;
             }

@@ -27,6 +27,10 @@ Route::post('recommended', 'ProductController@recommendedData');
 Route::post('additional', 'ProductController@additionalItems');
 Route::post('category-products', 'ProductController@productByCategory');
 Route::post('add-cart', 'CartController@addToCart');
+Route::post('remove-cart', 'CartController@removeCart');
+Route::post('cart-list', 'CartController@cartList');
+
+
 
 
 

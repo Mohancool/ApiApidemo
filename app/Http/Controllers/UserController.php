@@ -55,7 +55,7 @@ class UserController extends Controller
                 'otp' => $otp,
                 'otp_expire_at'=>$expire_at
             ]);
-        //Mail::to($request->email)->send(new EmailVerification($user));
+        Mail::to($request->email)->send(new EmailVerification($user));
 
         return response()->json(['status'=>true,'responseMessage'=>"Your otp send on your mail successfully.",'otp'=>$otp]);
 

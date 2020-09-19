@@ -31,6 +31,11 @@ Route::post('remove-cart', 'CartController@removeCart');
 Route::post('cart-list', 'CartController@cartList');
 Route::post('add-wishlist', 'WishlistController@addToWishlist');
 Route::post('get-wishlist', 'WishlistController@getWishlist');
+Route::post('otp-verify', 'UserController@verifyOtp');
+Route::post('update-profile', 'UserController@updateProfile');
+Route::post('get-coupans', 'CouponController@index');
+Route::post('get-orders', 'OrderController@index');
+
 
 
 

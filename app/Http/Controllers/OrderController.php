@@ -39,7 +39,7 @@ class OrderController extends Controller
                     'inventory_id'=>$item->inventory_id,
                     'product_name'=>$product->title,
                     'quantity'=>$item->quantity,
-                    'order_price'=>$item->price,
+                    'order_price'=>$item->unit_price,
                     'purchase_price'=>$product->purchase_price,
                     'sale_price' => $product->sale_price,
                     'discount' =>($order->discount == null) ? "" : $order->discount,
